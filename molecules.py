@@ -2,32 +2,34 @@ import os
 
 # Folder with the molecule files
 MOLECULES_FOLDER = "molecules"
+
 # the organic elements for the atoms: H, B, C, N, O, P, S, F, Cl, Br, and I
 ORGANIC_ELEMENTS = {"H", "B", "C", "N", "O", "P", "S", "F", "Cl", "Br", "I"}
 
 class Atom:
     def __init__(self, index, element, x, y, z):
-        self.index = index
-        self.element = element
-        self.coordinates = (x, y, z)
+        self.index = index              # atom index
+        self.element = element          # element symbol
+        self.coordinates = (x, y, z)    # tuple to show coordinates
 
 class Bond:
     def __init__(self, atom1, atom2, bond_type):
-        self.atom1 = atom1
-        self.atom2 = atom2
-        self.bond_type = bond_type
+        self.atom1 = atom1              # atom 1 of the bond
+        self.atom2 = atom2              # atom 2 of the bond
+        self.bond_type = bond_type      # type of chemical bond
 
 class Molecule:
     def __init__(self, name):
-        self.name = name
-        self.atoms = []
-        self.bonds = []
+        self.name = name        # molecule name
+        self.atoms = []         # list of atoms
+        self.bonds = []         # list of bonds
 
     def load_from_mol_file(self, molecule_name):
         molecule_file_path = os.path.join(MOLECULES_FOLDER, molecule_name)
         if not os.path.exists(molecule_file_path):
             return False
 
+        # Read molecule file
         file = open(molecule_file_path, 'r')
         lines = file.readlines()
         file.close()
@@ -41,11 +43,13 @@ class Molecule:
         # Atom block
         atom_start = 4
         atom_end = atom_start + atom_count
-        atom_ids = set()
+        atom_ids = []
         for i in range(atom_start, atom_end):
             parts = lines[i].split()
-            x, y, z = map(float, parts[0:3])
-            element = parts[3]
+            x = float(parts[0])     # x coordinate
+            y = float(parts[1])     # y coordinate
+            z = float(parts[2])     # z coordinate
+            element = parts[3]      # element symbol
 
             # Check if the element is organic
             # 2nd validation step
@@ -55,7 +59,7 @@ class Molecule:
 
             atom_id = i - atom_start + 1
             self.atoms.append(Atom(atom_id, element, x, y, z))
-            atom_ids.add(atom_id)
+            atom_ids.append(atom_id)
 
         # Bond block
         bond_start = atom_end

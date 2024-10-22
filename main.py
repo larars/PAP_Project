@@ -1,8 +1,8 @@
 from molecule_manager import MoleculeManager
 
 # Commands
-#EXIT check
-#LOAD VERIFY check
+#EXIT works
+#LOAD VERIFY works
 #LIST MOLECULES
 #COUNT ELEMENT
 #3D DISTANCE
@@ -22,14 +22,15 @@ def main():
         # LOAD VERIFY command
         elif command.startswith("LOAD VERIFY"):
             # first splitting the input to get the molecule name
-            _, _, molecule_name = command.split(maxsplit=2)
+            _, _, molecule_name = command.split()
             molecule_manager.load_molecule(molecule_name)
         # LIST MOLECULES command
         elif command == "LIST MOLECULES":
             molecule_manager.list_molecules()
         # COUNT ELEMENT command
         elif command.startswith("COUNT ELEMENT"):
-            pass
+            _, _, molecule_name, element = command.split()
+            molecule_manager.count_element(molecule_name, element)
         # 3D DISTANCE command
         elif command.startswith("3D DISTANCE"):
             pass
