@@ -86,7 +86,7 @@ class Molecule:
         # Check that all atoms are referenced in at least one bond
         # 4th validation step
         bonded_atoms = {bond.atom1 for bond in self.bonds} | {bond.atom2 for bond in self.bonds}
-        if not atom_ids.issubset(bonded_atoms):
+        if not all(atom_id in bonded_atoms for atom_id in atom_ids):
             print(f"File {molecule_name} could not be loaded. Bonds block does not cover all atoms.")
             return False
 
