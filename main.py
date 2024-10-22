@@ -10,26 +10,40 @@ from molecule_manager import MoleculeManager
 #TOP BOND
 #SUBGROUP MATCHING
 
-
-
 def main():
-    manager = MoleculeManager()
+    molecule_manager = MoleculeManager()
     while True:
         command = input("Command to execute: ")
         # EXIT command
         if command == "EXIT":
+            # end the program
             print("Goodbye!")
             break
         # LOAD VERIFY command
         elif command.startswith("LOAD VERIFY"):
+            # first splitting the input to get the molecule name
             _, _, molecule_name = command.split(maxsplit=2)
-            manager.load_molecule(molecule_name)
+            molecule_manager.load_molecule(molecule_name)
         # LIST MOLECULES command
         elif command == "LIST MOLECULES":
-            manager.list_molecules()
+            molecule_manager.list_molecules()
+        # COUNT ELEMENT command
+        elif command.startswith("COUNT ELEMENT"):
+            pass
+        # 3D DISTANCE command
+        elif command.startswith("3D DISTANCE"):
+            pass
+        # FILTER BY ATOMS command
+        elif command.startswith("FILTER BY ATOMS"):
+            pass
+        # TOP BOND command
+        elif command == "TOP BOND":
+            pass
+        # SUBGROUP MATCHING command
+        elif command.startswith("SUBGROUP MATCHING"):
+            pass
         else:
             print("Unknown command.")
 
 # Run the whole program
-if __name__ == "__main__":
-    main()
+main()
