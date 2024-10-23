@@ -6,8 +6,8 @@ from molecule_manager import MoleculeManager
 #LIST MOLECULES works
 #COUNT ELEMENT works
 #3D DISTANCE works
-#FILTER BY ATOMS -> not implemented
-#TOP BOND -> not implemented
+#FILTER BY ATOMS works
+#TOP BOND works
 #SUBGROUP MATCHING -> additional task, not implemented
 
 def main():
