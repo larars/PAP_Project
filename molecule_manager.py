@@ -25,9 +25,12 @@ class MoleculeManager:
             # gets the number of molecules loaded and prints the names in alphabetical order
             print(f"Number of molecules loaded: {len(self.molecules)}")
             for name in sorted(self.molecules.keys()):
-                print(f"- {name}")
+                mol_without_mol = name.replace('.mol', '')
+                print(f"- {mol_without_mol}")
 
     def count_element(self, molecule_name, element):
+        # add .mol to the molecule name
+        molecule_name += ".mol"
         # molecule not loaded
         if molecule_name not in self.molecules:
             print(f"The molecule {molecule_name} is not loaded.")
@@ -46,6 +49,8 @@ class MoleculeManager:
             print(f"The number of {element} atom elements in the {molecule_name} molecule is {count}.")
 
     def three_d_distance(self, molecule_name, atom1, atom2):
+        # add .mol to the molecule name
+        molecule_name += ".mol"
         # molecule not loaded
         if molecule_name not in self.molecules:
             print(f"The molecule {molecule_name} is not loaded.")
