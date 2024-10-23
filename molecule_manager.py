@@ -131,10 +131,13 @@ class MoleculeManager:
     def top_bond(self, bond_str, n):
 
         # Split the bond into two atoms
-        atom1, atom2 = bond_str.split('−')
+        atom1_element, atom2_element = bond_str.split('-')
+
+        # convert n to int
+        n = int(n)
 
         # check if atoms are organic
-        if atom1 not in ORGANIC_ELEMENTS or atom2 not in ORGANIC_ELEMENTS:
+        if atom1_element not in ORGANIC_ELEMENTS or atom2_element not in ORGANIC_ELEMENTS:
             print("The provided atom is not part of the list of organic atoms.")
             return
 
@@ -148,15 +151,17 @@ class MoleculeManager:
         for name, molecule in self.molecules.items():
             # Count the number of occurrences of both Ai−Aj and Aj−Ai in the molecule's bonds
             count = sum(
-                (bond.atom1 == atom1 and bond.atom2 == atom2) or
-                (bond.atom1 == atom2 and bond.atom2 == atom1)
+                (molecule.atoms[bond.atom1 - 1].element == atom1_element and molecule.atoms[
+                    bond.atom2 - 1].element == atom2_element) or
+                (molecule.atoms[bond.atom1 - 1].element == atom2_element and molecule.atoms[
+                    bond.atom2 - 1].element == atom1_element)
                 for bond in molecule.bonds
             )
             if count > 0:
                 bond_counts.append((name, count))
 
-        # Sort the list first by count (descending) and then by name (ascending)
-        bond_counts.sort(key=lambda x: (-x[1], x[0]))
+        # Sort the list first by count and then by name
+        bond_counts = sorted(bond_counts, key=lambda x: (-x[1], x[0]))
 
         # Select the top n molecules
         top_n = bond_counts[:n]
@@ -165,7 +170,8 @@ class MoleculeManager:
         if top_n:
             print(f"Top {n} molecules with the most occurrences of the bond {bond_str}:")
             for molecule_name, count in top_n:
-                print(f"{molecule_name} - {count}")
+                mol_without_mol = molecule_name.replace('.mol', '')
+                print(f"{mol_without_mol} - {count}")
         else:
             print(f"No molecules contain the bond {bond_str}.")
 
