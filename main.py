@@ -37,10 +37,12 @@ def main():
             molecule_manager.three_d_distance(molecule_name, atom1 , atom2)
         # FILTER BY ATOMS command
         elif command.startswith("FILTER_BY_ATOMS"):
-            pass
+            _, k, element = command.split()
+            molecule_manager.filter_by_atoms(k, element)
         # TOP BOND command
-        elif command == "TOP_BOND":
-            pass
+        elif command.startswith("TOP_BOND"):
+            _, bond_str, n = command.split()
+            molecule_manager.top_bond(bond_str, n)
         # SUBGROUP MATCHING command
         elif command.startswith("SUBGROUP_MATCHING"):
             pass

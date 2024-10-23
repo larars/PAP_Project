@@ -1,5 +1,6 @@
 import math
 from molecules import Molecule
+from molecules import ORGANIC_ELEMENTS
 
 class MoleculeManager:
     def __init__(self):
@@ -79,8 +80,8 @@ class MoleculeManager:
 
 
         # get coordinates of the two atoms
-        x1, y1, z1 = self.atom1.coordinates
-        x2, y2, z2 = self.atom2.coordinates
+        x1, y1, z1 = atom1_obj.coordinates
+        x2, y2, z2 = atom2_obj.coordinates
 
         x_difference = x1 - x2
         y_difference = y1 - y2
@@ -88,14 +89,85 @@ class MoleculeManager:
 
         #euclidian distance formula
         distance = math.sqrt(x_difference**2 + y_difference**2 + z_difference**2)
+        rounded_distance = round(distance, 2)
 
-        print(f"The 3D distance between atoms {atom1} and {atom2} of the aspirine molecule is {distance}.")
+        print(f"The 3D distance between atoms {atom1} and {atom2} of the aspirine molecule is {rounded_distance}.")
 
-    def filter_by_atoms(self, molecule_name, element):
-        pass
+    def filter_by_atoms(self, k, element):
+        if element not in ORGANIC_ELEMENTS:
+            print("The provided atom is not part of the list of organic atoms.")
+            return
 
-    def top_bond(self, molecule_name):
-        pass
+        # Check if any molecules are loaded
+        if self.molecules == {}:
+            print("No molecules loaded.")
+            return
+
+        # convert k into an integer
+        k = int(k)
+
+        # check for matching mols
+        matching_mols = []
+        for name, molecule in self.molecules.items():
+            # Count the number of atoms of the given type in the molecule
+            count = sum(1 for atom in molecule.atoms if atom.element == element)
+            # Check if the count is at least k
+            if count >= k:
+                matching_mols.append(name)
+
+        # get alphabetic order
+        matching_mols.sort()
+
+        # print matching mols
+        if matching_mols:
+            print(f"Molecules with at least {k} {element} atoms:")
+            for molecule_name in matching_mols:
+                mol_without_mol = molecule_name.replace('.mol', '')
+                print(f"- {mol_without_mol}")
+        # there are no matching mols
+        else:
+            print(f"No molecules have {k} or more {element} atoms.")
+
+    def top_bond(self, bond_str, n):
+
+        # Split the bond into two atoms
+        atom1, atom2 = bond_str.split('−')
+
+        # check if atoms are organic
+        if atom1 not in ORGANIC_ELEMENTS or atom2 not in ORGANIC_ELEMENTS:
+            print("The provided atom is not part of the list of organic atoms.")
+            return
+
+        # Check if molecules are loaded
+        if self.molecules == {}:
+            print("No molecules loaded.")
+            return
+
+        # Count occurrences of the bond in each molecule
+        bond_counts = []
+        for name, molecule in self.molecules.items():
+            # Count the number of occurrences of both Ai−Aj and Aj−Ai in the molecule's bonds
+            count = sum(
+                (bond.atom1 == atom1 and bond.atom2 == atom2) or
+                (bond.atom1 == atom2 and bond.atom2 == atom1)
+                for bond in molecule.bonds
+            )
+            if count > 0:
+                bond_counts.append((name, count))
+
+        # Sort the list first by count (descending) and then by name (ascending)
+        bond_counts.sort(key=lambda x: (-x[1], x[0]))
+
+        # Select the top n molecules
+        top_n = bond_counts[:n]
+
+        # Print the results
+        if top_n:
+            print(f"Top {n} molecules with the most occurrences of the bond {bond_str}:")
+            for molecule_name, count in top_n:
+                print(f"{molecule_name} - {count}")
+        else:
+            print(f"No molecules contain the bond {bond_str}.")
 
     # Optional
     def subgroup_matching(self, molecule_name, substructure):
