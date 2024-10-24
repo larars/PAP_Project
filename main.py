@@ -1,5 +1,6 @@
 from molecule_manager import MoleculeManager
 
+# Project by Lara (71843) and Ricardo (70627)
 # Commands
 #EXIT works
 #LOAD VERIFY works

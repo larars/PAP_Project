@@ -43,6 +43,8 @@ class MoleculeManager:
             if atom.element == element:
                 count += 1
 
+        molecule_name = molecule_name.replace('.mol', '')
+
         if count == 0:
             # atom does not exist in mol
             print(f"The atom element {element} does not exist in the {molecule_name} molecule.")
@@ -54,6 +56,7 @@ class MoleculeManager:
         molecule_name += ".mol"
         # molecule not loaded
         if molecule_name not in self.molecules:
+            molecule_name = molecule_name.replace('.mol', '')
             print(f"The molecule {molecule_name} is not loaded.")
             return
 
@@ -120,13 +123,13 @@ class MoleculeManager:
 
         # print matching mols
         if matching_mols:
-            print(f"Molecules with at least {k} {element} atoms:")
+            print("List of loaded molecules that meet the specified criteria:")
             for molecule_name in matching_mols:
                 mol_without_mol = molecule_name.replace('.mol', '')
                 print(f"- {mol_without_mol}")
         # there are no matching mols
         else:
-            print(f"No molecules have {k} or more {element} atoms.")
+            print("No loaded molecule matches the criteria.")
 
     def top_bond(self, bond_str, n):
 

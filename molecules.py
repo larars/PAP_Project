@@ -66,7 +66,7 @@ class Molecule:
         bond_end = bond_start + bond_count
         # Check if there are enough lines for the bonds block
         # #3rd validation step part 1
-        if bond_end > len(lines):
+        if len(lines) < bond_end:
             print(f"File {molecule_name} could not be loaded. Bonds block is incomplete.")
             return False
 
@@ -79,7 +79,8 @@ class Molecule:
 
         # Check if number of bonds matches the number from the header
         # 3rd validation step part 2
-        if len(self.bonds) != bond_count:
+        actual_bond_count = bond_end - bond_start
+        if actual_bond_count != bond_count:
             print(f"File {molecule_name} could not be loaded. Bonds block is incomplete.")
             return False
 
