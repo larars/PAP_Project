@@ -9,6 +9,7 @@ class MoleculeManager:
     def load_molecule(self, molecule_name):
         # when molecule is already loaded stop the function
         if molecule_name in self.molecules:
+            molecule_name = molecule_name.replace('.mol', '')
             print(f"Molecule {molecule_name} already loaded!")
             return
 
@@ -34,6 +35,7 @@ class MoleculeManager:
         molecule_name += ".mol"
         # molecule not loaded
         if molecule_name not in self.molecules:
+            molecule_name = molecule_name.replace('.mol', '')
             print(f"The molecule {molecule_name} is not loaded.")
             return
 
@@ -171,12 +173,12 @@ class MoleculeManager:
 
         # Print the results
         if top_n:
-            print(f"Top {n} molecules with the most occurrences of the bond {bond_str}:")
+            print("Top of loaded molecules with the provided bond:")
             for molecule_name, count in top_n:
                 mol_without_mol = molecule_name.replace('.mol', '')
                 print(f"{mol_without_mol} - {count}")
         else:
-            print(f"No molecules contain the bond {bond_str}.")
+            print("No molecules with the provided bond.")
 
     # Optional
     def subgroup_matching(self, molecule_name, substructure):
