@@ -96,7 +96,9 @@ class MoleculeManager:
         distance = math.sqrt(x_difference**2 + y_difference**2 + z_difference**2)
         rounded_distance = round(distance, 2)
 
-        print(f"The 3D distance between atoms {atom1} and {atom2} of the aspirine molecule is {rounded_distance}.")
+        molecule_name = molecule_name.replace('.mol', '')
+
+        print(f"The 3D distance between atoms {atom1} and {atom2} of the {molecule_name} molecule is {rounded_distance}.")
 
     def filter_by_atoms(self, k, element):
         if element not in ORGANIC_ELEMENTS:
